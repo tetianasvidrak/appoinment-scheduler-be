@@ -1,12 +1,16 @@
+const databaseInitialization = require("~/initialization/database");
 const initialization = require("~/initialization/initialization");
+const {
+  config: { SERVER_PORT },
+} = require("~/configs/config");
 
 const serverSetup = async (app) => {
+  await databaseInitialization();
+
   initialization(app);
 
-  const PORT = process.env.PORT || 5000;
-
-  app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  app.listen(SERVER_PORT, () => {
+    console.log(`🚀 Server is running on http://localhost:${SERVER_PORT}`);
   });
 };
 
