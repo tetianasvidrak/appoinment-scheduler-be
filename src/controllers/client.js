@@ -6,7 +6,7 @@ const createClient = async (req, res) => {
     const client = await clientService.createClient(name, phone);
     res.status(201).json(client);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(err.status || 500).json({ error: err.message });
   }
 };
 
@@ -31,7 +31,7 @@ const updateClient = async (req, res) => {
 
     res.status(200).json(client);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(err.status || 500).json({ error: err.message });
   }
 };
 
