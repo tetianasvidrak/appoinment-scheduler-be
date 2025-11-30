@@ -2,15 +2,20 @@ const { Schema, model } = require("mongoose");
 
 const visitSchema = new Schema(
   {
-    employeeId: {
+    employee: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
       required: true,
     },
-    clientId: { type: Schema.Types.ObjectId, ref: "Client", required: true },
+    client: { type: Schema.Types.ObjectId, ref: "Client", required: true },
     services: [
       {
-        serviceId: {
+        category: {
+          type: Schema.Types.ObjectId,
+          ref: "Category",
+          required: true,
+        },
+        service: {
           type: Schema.Types.ObjectId,
           ref: "Service",
           required: true,

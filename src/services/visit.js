@@ -7,22 +7,23 @@ const visitService = {
 
   getVisits: async (filter = {}) => {
     return await Visit.find(filter)
-      .populate("employeeId", "name phone")
-      .populate("clientId", "name phone")
-      .populate("services.serviceId", "name price duration");
+      .populate("employee", "name phone")
+      .populate("services.category", "displayColor _id")
+      .populate("client", "name phone")
+      .populate("services.service", "name price duration _id");
   },
 
   getVisitById: async (id) => {
     return await Visit.findById(id)
-      .populate("employeeId", "name phone")
-      .populate("clientId", "name phone")
-      .populate("services.serviceId", "name price duration");
+      .populate("employee", "name phone")
+      .populate("client", "name phone")
+      .populate("services.service", "name price duration");
   },
 
   updateVisit: async (id, updateData) => {
     return await Visit.findByIdAndUpdate(id, updateData, { new: true })
-      .populate("employeeId", "name phone")
-      .populate("clientId", "name phone")
+      .populate("employee", "name phone")
+      .populate("client", "name phone")
       .populate("services", "name price duration");
   },
 

@@ -11,6 +11,7 @@ const createVisit = async (req, res) => {
 
 const getVisits = async (req, res) => {
   try {
+    // якщо фронт передає ?date=2025-09-15
     const filter = {};
     if (req.query.date) {
       const start = new Date(req.query.date);

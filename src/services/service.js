@@ -10,7 +10,7 @@ const serviceService = {
       throw error;
     }
 
-    const existingService = await Service.findOne({ name, categoryId });
+    const existingService = await Service.findOne({ name, category });
     if (existingService) {
       const error = new Error(
         "Service with this name already exists in this category"
@@ -19,26 +19,30 @@ const serviceService = {
       throw error;
     }
 
-    const service = await Service.create({ categoryId, name, price, duration });
-    return await service.populate("categoryId", "name displayColor");
+    const service = await Service.create({
+      category: categoryId,
+      name,
+      price,
+      duration,
+    });
+    return await service.populate("category", "name displayColor");
   },
 
   getServices: async () => {
-    return await Service.find().populate("categoryId", "name displayColor");
+    return await Service.find().populate("category", "name displayColor");
   },
 
   getServiceById: async (id) => {
-    return await Service.findById(id).populate(
-      "categoryId",
-      "name displayColor"
-    );
+    return await Service.findById(id).populate("category", "name displayColor");
   },
 
   updateService: async (id, updateData) => {
+    console.log("Updating service with data:", updateData);
+    console.log("ID:", id);
     try {
       return await Service.findByIdAndUpdate(id, updateData, {
         new: true,
-      }).populate("categoryId", "name displayColor");
+      }).populate("category", "name displayColor");
     } catch (err) {
       if (err.code === 11000) {
         const error = new Error(

@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const serviceSchema = new Schema(
   {
-    categoryId: {
+    category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
