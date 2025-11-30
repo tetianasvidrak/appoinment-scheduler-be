@@ -37,8 +37,6 @@ const serviceService = {
   },
 
   updateService: async (id, updateData) => {
-    console.log("Updating service with data:", updateData);
-    console.log("ID:", id);
     try {
       return await Service.findByIdAndUpdate(id, updateData, {
         new: true,

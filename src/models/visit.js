@@ -10,11 +10,6 @@ const visitSchema = new Schema(
     client: { type: Schema.Types.ObjectId, ref: "Client", required: true },
     services: [
       {
-        category: {
-          type: Schema.Types.ObjectId,
-          ref: "Category",
-          required: true,
-        },
         service: {
           type: Schema.Types.ObjectId,
           ref: "Service",

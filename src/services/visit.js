@@ -1,4 +1,5 @@
 const Visit = require("~/models/visit");
+const { calculateVisitDuration } = require("../helpers/calculateVisitDuration");
 
 const visitService = {
   createVisit: async (data) => {
@@ -6,11 +7,27 @@ const visitService = {
   },
 
   getVisits: async (filter = {}) => {
-    return await Visit.find(filter)
+    const visits = await Visit.find(filter)
       .populate("employee", "name phone")
-      .populate("services.category", "displayColor _id")
+      // .populate("services.category", "displayColor _id")
       .populate("client", "name phone")
-      .populate("services.service", "name price duration _id");
+      .populate({
+        path: "services.service",
+        select: "name price duration _id",
+        populate: {
+          path: "category",
+          select: "displayColor",
+        },
+      });
+    // .populate("services.service", "name price duration _id category")
+    // .populate({ path: "services.service.category", select: "displayColor" });
+
+    const visitsWithDuration = visits.map((visit) => ({
+      ...visit.toObject(),
+      duration: calculateVisitDuration(visit.toObject()),
+    }));
+
+    return visitsWithDuration;
   },
 
   getVisitById: async (id) => {
@@ -18,6 +35,7 @@ const visitService = {
       .populate("employee", "name phone")
       .populate("client", "name phone")
       .populate("services.service", "name price duration");
+    // .populate({ path: "services.category", select: "displayColor" });
   },
 
   updateVisit: async (id, updateData) => {
@@ -25,6 +43,7 @@ const visitService = {
       .populate("employee", "name phone")
       .populate("client", "name phone")
       .populate("services", "name price duration");
+    // .populate({ path: "services.category", select: "displayColor" });
   },
 
   deleteVisit: async (id) => {
