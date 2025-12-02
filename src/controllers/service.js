@@ -2,9 +2,9 @@ const serviceService = require("~/services/service");
 
 const createService = async (req, res) => {
   try {
-    const { categoryId, name, price, duration } = req.body;
+    const { category, name, price, duration } = req.body;
     const service = await serviceService.createService(
-      categoryId,
+      category,
       name,
       price,
       duration

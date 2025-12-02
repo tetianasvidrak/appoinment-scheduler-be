@@ -2,9 +2,9 @@ const Service = require("~/models/service");
 const Category = require("~/models/category");
 
 const serviceService = {
-  createService: async (categoryId, name, price, duration) => {
-    const category = await Category.findById(categoryId);
-    if (!category) {
+  createService: async (category, name, price, duration) => {
+    const categoryResult = await Category.findById(category);
+    if (!categoryResult) {
       const error = new Error("Category not found");
       error.status = 400;
       throw error;
@@ -20,7 +20,7 @@ const serviceService = {
     }
 
     const service = await Service.create({
-      category: categoryId,
+      category,
       name,
       price,
       duration,
