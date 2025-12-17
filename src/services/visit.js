@@ -9,7 +9,6 @@ const visitService = {
   getVisits: async (filter = {}) => {
     const visits = await Visit.find(filter)
       .populate("employee", "name phone")
-      // .populate("services.category", "displayColor _id")
       .populate("client", "name phone")
       .populate({
         path: "services.service",
@@ -19,8 +18,6 @@ const visitService = {
           select: "displayColor",
         },
       });
-    // .populate("services.service", "name price duration _id category")
-    // .populate({ path: "services.service.category", select: "displayColor" });
 
     const visitsWithDuration = visits.map((visit) => ({
       ...visit.toObject(),
@@ -35,7 +32,6 @@ const visitService = {
       .populate("employee", "name phone")
       .populate("client", "name phone")
       .populate("services.service", "name price duration");
-    // .populate({ path: "services.category", select: "displayColor" });
   },
 
   updateVisit: async (id, updateData) => {
@@ -43,7 +39,6 @@ const visitService = {
       .populate("employee", "name phone")
       .populate("client", "name phone")
       .populate("services", "name price duration");
-    // .populate({ path: "services.category", select: "displayColor" });
   },
 
   deleteVisit: async (id) => {
